@@ -1,5 +1,12 @@
 import React from "react";
-
+import { Route, Routes } from "react-router";
+import { StoryIndex } from "./pages/StoryIndex";
 export function RootCmp() {
-  return <div>hello world</div>;
+  return (
+    <main>
+      <Routes>
+        <Route path="/" element={<StoryIndex />} />
+      </Routes>
+    </main>
+  );
 }

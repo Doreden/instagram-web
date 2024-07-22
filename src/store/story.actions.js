@@ -1,28 +1,28 @@
-import { carService } from "../services/story.service.local";
-import { store } from "../store/store";
+import { storyService } from "../services/story.service.local";
+import { store } from "./store";
 import {
   ADD_STORY,
   REMOVE_STORY,
-  SET_STORYS,
+  SET_STORIES,
   SET_STORY,
   UPDATE_STORY,
   ADD_STORY_MSG,
 } from "./story.reducer";
 
-export async function loadStorys() {
+export async function loadStories() {
   try {
-    const cars = await carService.query();
-    console.log("Storys from DB:", cars);
-    store.dispatch(getCmdSetStorys(cars));
+    const stories = await storyService.query();
+    console.log("stories from DB:", stories);
+    store.dispatch(getCmdSetStorys(stories));
   } catch (err) {
-    console.log("Cannot load cars", err);
+    console.log("Cannot load stories", err);
     throw err;
   }
 }
 
-export async function loadStory(carId) {
+export async function loadStory(storyId) {
   try {
-    const story = await carService.getById(carId);
+    const story = await storyService.getById(storyId);
     console.log("story from DB:", story);
     store.dispatch(getCmdSetStory(story));
   } catch (err) {
@@ -31,10 +31,10 @@ export async function loadStory(carId) {
   }
 }
 
-export async function removeStory(carId) {
+export async function removeStory(storyId) {
   try {
-    await carService.remove(carId);
-    store.dispatch(getCmdRemoveStory(carId));
+    await storyService.remove(storyId);
+    store.dispatch(getCmdRemoveStory(storyId));
   } catch (err) {
     console.log("Cannot remove story", err);
     throw err;
@@ -43,7 +43,7 @@ export async function removeStory(carId) {
 
 export async function addStory(story) {
   try {
-    const savedStory = await carService.save(story);
+    const savedStory = await storyService.save(story);
     console.log("Added story", savedStory);
     store.dispatch(getCmdAddStory(savedStory));
     return savedStory;
@@ -55,7 +55,7 @@ export async function addStory(story) {
 
 export async function updateStory(story) {
   try {
-    const savedStory = await carService.save(story);
+    const savedStory = await storyService.save(story);
     console.log("Updated story:", savedStory);
     store.dispatch(getCmdUpdateStory(savedStory));
     return savedStory;
@@ -65,9 +65,9 @@ export async function updateStory(story) {
   }
 }
 
-export async function addStoryMsg(carId, txt) {
+export async function addStoryMsg(storyId, txt) {
   try {
-    const msg = await carService.addStoryMsg(carId, txt);
+    const msg = await storyService.addStoryMsg(storyId, txt);
     console.log("Added story message", msg);
     store.dispatch(getCmdAddStoryMsg(msg));
     return msg;
@@ -78,10 +78,10 @@ export async function addStoryMsg(carId, txt) {
 }
 
 // Command Creators:
-function getCmdSetStorys(cars) {
+function getCmdSetStorys(stories) {
   return {
-    type: SET_STORYS,
-    cars,
+    type: SET_STORIES,
+    stories,
   };
 }
 function getCmdSetStory(story) {
@@ -90,10 +90,10 @@ function getCmdSetStory(story) {
     story,
   };
 }
-function getCmdRemoveStory(carId) {
+function getCmdRemoveStory(storyId) {
   return {
     type: REMOVE_STORY,
-    carId,
+    storyId,
   };
 }
 function getCmdAddStory(story) {
@@ -118,7 +118,7 @@ function getCmdAddStoryMsg(msg) {
 // unitTestActions()
 async function unitTestActions() {
   await loadStorys();
-  await addStory(carService.getEmptyStory());
+  await addStory(storyService.getEmptyStory());
   await updateStory({
     _id: "m1oC7",
     title: "story-Good",

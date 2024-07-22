@@ -4,7 +4,7 @@ import { utilService } from "./util.service";
 
 const STORAGE_KEY = "story";
 
-export const carService = {
+export const storyService = {
   query,
   getById,
   save,
@@ -12,18 +12,18 @@ export const carService = {
   getEmptyStory,
   addStoryMsg,
 };
-window.cs = carService;
+window.cs = storyService;
 
 async function query(filterBy = { txt: "", price: 0 }) {
   return httpService.get(STORAGE_KEY, filterBy);
 }
 
-function getById(carId) {
-  return httpService.get(`story/${carId}`);
+function getById(storyId) {
+  return httpService.get(`story/${storyId}`);
 }
 
-async function remove(carId) {
-  return httpService.delete(`story/${carId}`);
+async function remove(storyId) {
+  return httpService.delete(`story/${storyId}`);
 }
 async function save(story) {
   var savedStory;
@@ -35,8 +35,8 @@ async function save(story) {
   return savedStory;
 }
 
-async function addStoryMsg(carId, txt) {
-  const savedMsg = await httpService.post(`story/${carId}/msg`, { txt });
+async function addStoryMsg(storyId, txt) {
+  const savedMsg = await httpService.post(`story/${storyId}/msg`, { txt });
   return savedMsg;
 }
 
